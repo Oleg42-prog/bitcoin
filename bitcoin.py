@@ -479,3 +479,10 @@ class MinerAgent(Agent):
 		else:
 			return True
 		
+
+		
+class VillainMinerAgent(MinerAgent):
+
+	def doEvil(self):
+		print('Я делаю что-то плохое')
+		
