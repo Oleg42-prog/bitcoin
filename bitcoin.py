@@ -402,38 +402,7 @@ class MinerAgent(Agent):
 		for block in self.blocks:
 			hashs += block.transactions_hashs
 		return hashs
-
-	@property
-	def transactions_hashs(self):
-		return list(map(lambda t: t.hash, self._transactions))
-	
-	def checkTransactionParents(self, transaction, generation=[]):
-
-		if not transaction.hash in self.known_transaction:
-			return False, generation
-
-		if transaction.hash == self._forefather_hash:
-			return True, generation
-
-		if transaction.hash in self.blocks_transactions_hashs:
-			return True, generation
-
-		return self.checkTransactionParents(transaction.parent, generation + [transaction])
-
-	@property
-	def last_block(self):
-		return sorted(self.blocks, key=lambda b: b.age, reverse=True)[0]
-
-	def createBlock(self, time):
-		
-		verify_transactions = []
-		work_transactions = []
-
-		for transaction in self._transactions:
-			if self.verify(transaction):
-				verify_transactions.append(transaction)
-
-		verify_transactions = sorted(verify_transactions, key=lambda t: t.reward)
+tions, key=lambda t: t.reward)
 		
 		while verify_transactions != [] and len(work_transactions) < 5:
 			transaction = verify_transactions.pop()
